@@ -360,19 +360,32 @@ i2b2.CRC.view.modalLabValues = {
 		dm.flag = false;
 		try { 
 			var t = i2b2.h.getXNodeVal(refXML, 'Flagstouse'); 
-			if (t) {
-				if (t == "A") {
-					dm.flagType = 'NA';
-					dm.flags = [{name:'Normal', value:'@'},{name:'Abnormal', value:'A'}];
-				} else if (t == "HL") {
-					dm.flagType = 'HL';
-					dm.flags = [{name:'Normal', value:'@'},{name:'High', value:'H'},{name:'Low', value:'L'}];
-				} else {
-					dm.flagType = false;
-				}
-			} else {
-				dm.flagType = false;
-			}
+                     if (t) {
+                           dm.flagType = 'N';
+                           dm.flags = [{name:'Normal', value:'@'}];
+                           if(t.indexOf("[A]") >=0 ) {
+                                  dm.flagType += 'A';
+                                  dm.flags.push({name:'Abnormal', value:'A'});
+                           }
+                           if(t.indexOf("[H]") >=0 ) {
+                                  dm.flagType += 'H';
+                                  dm.flags.push({name:'High', value:'H'});
+                           }
+                           if(t.indexOf("[L]") >=0 ) {
+                                  dm.flagType += 'L';
+                                  dm.flags.push({name:'Low', value:'L'});  
+                           }
+                           if(t.indexOf("[CL]") >=0 ) {
+                                  dm.flagType += 'CL';
+                                  dm.flags.push({name:'Critical Low', value:'CL'});  
+                           }
+                           if(t.indexOf("[CH]") >=0 ) {
+                                  dm.flagType += 'CH';
+                                  dm.flags.push({name:'Critical High', value:'CH'});  
+                           }
+                     } else {
+                           dm.flagType = false;
+                     }
 
 			// insert the flags into the range select control
 			var sn = $('mlvfrmFlagValue');
